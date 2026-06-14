@@ -16,7 +16,7 @@ function Login(){
         const formData = new FormData();
         formData.append("email",data.email);
         formData.append("password",data.password);
-        const res = await axios.post("https://distributedtaskqueue.onrender.com/user/login",formData,{withCredentials:true});
+        const res = await axios.post("https://distributedtaskqueue-f21w.onrender.com/user/login",formData,{withCredentials:true});
         if(res.status==201){
             console.log("Login successful")
             navigate('/profile');

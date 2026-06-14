@@ -21,7 +21,7 @@ function Register() {
     formData.append("mobile",data.mobile);
 
 
-    let res = await axios.post("https://distributedtaskqueue.onrender.com/user/register",formData,{withCredentials:true});
+    let res = await axios.post("https://distributedtaskqueue-f21w.onrender.com/user/register",formData,{withCredentials:true});
     if(res.status===201){
       navigate('/login');
     }

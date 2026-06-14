@@ -16,7 +16,7 @@ function MessageTask() {
             const formData = new FormData();
             formData.append("message", data.message);
             const res = await axios.post(
-                "https://distributedtaskqueue.onrender.com/task/message",
+                "https://distributedtaskqueue-f21w.onrender.com/task/message",
                 formData,
                 { withCredentials: true }
             );

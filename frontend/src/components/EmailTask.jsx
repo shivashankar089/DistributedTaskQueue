@@ -19,7 +19,7 @@ function EmailTask() {
         try {
 
             const res = await axios.post(
-                "https://distributedtaskqueue.onrender.com/task/email",
+                "https://distributedtaskqueue-f21w.onrender.com/task/email",
                 {
                     from: data.from,
                     to: data.to,

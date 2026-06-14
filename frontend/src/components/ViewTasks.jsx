@@ -14,7 +14,7 @@ function ViewTasks() {
             try {
 
                 const res = await axios.get(
-                    "https://distributedtaskqueue.onrender.com/task/all",
+                    "https://distributedtaskqueue-f21w.onrender.com/task/all",
                     {
                         withCredentials: true
                     }
