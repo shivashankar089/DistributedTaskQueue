@@ -1,0 +1,41 @@
+POST http://localhost:4000/user/register
+Content-Type: application/json
+
+{
+    "firstname":"Ruthwik",
+    "lastname":"Chalamalla",
+    "email":"ruthwika@mail.com",
+    "password":"ruthwika123",
+    "mobile":"8688190019"
+}
+
+###
+POST http://localhost:4000/user/login
+Content-Type: application/json
+
+{
+    "email":"ruthwika@mail.com",
+    "password":"ruthwika123"
+}
+
+
+###
+POST http://localhost:4000/user/logout
+
+###
+PUT http://localhost:4000/user/update
+Content-Type: application/json
+
+{
+    "firstname":"Ruthwika",
+    "lastname":"Chalamalla",
+    "email":"ruthwikachalama",
+    "password":"ruthwika123",
+    "mobile":"9121745109"
+}
+
+###
+DELETE http://localhost:4000/user/delete
+
+###Get user details
+GET http://localhost:4000/user/details
