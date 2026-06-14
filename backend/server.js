@@ -15,7 +15,7 @@ config();
 const app = exp();
 app.use(exp.json());
 app.use(cors({
-  origin: ["http://localhost:5173", "https://distributed-task-queue-amber.vercel.app"],
+  origin: ["http://localhost:5173"],
   credentials: true
 }))
 app.use(cookieParser())
@@ -34,3 +34,9 @@ app.listen(port,()=>console.log("App is listening to port 4000..."))
 }
 
 Server();
+app.get("/", (req, res) => {
+    res.json({
+        success: true,
+        message: "Distributed Task Queue Backend is Running"
+    });
+});
