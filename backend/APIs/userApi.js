@@ -27,12 +27,10 @@ userApp.post('/register',upload.none(),async(req,res)=>{
    let response = await userModel.create(newUser);
    //sending response
    if(response){
-   res.status(201).json({message:"User registered Successfully"});
+    return res.status(201).json({message:"User registered Successfully"});
    }
-   else{
     res.status(400).json({message:"User registration failed.."});
-   }
-})
+   })
 
 
 //Route for login
@@ -42,18 +40,18 @@ userApp.post('/login',upload.none(),async(req,res)=>{
     let result = await userModel.findOne({email:email});
     //send response if email is not matched
     if(!result){
-        return res.status(400).json({message:"Email not found"});
+        return res.status(400).json({message:"Incorrect email"});
     }
     //compare passwords
     let isMatch = await compare(password,result.password);
     if(!isMatch){
-        return res.status(400).json({message:"Invalid password"});
+        return res.status(400).json({message:"Incorrect password"});
     }
     //create jwt
     const signedToken = sign(
         {
             id: result._id,
-            email: result.email
+            email: email
         },
             process.env.SECRET_KEY,
         {
@@ -64,11 +62,16 @@ userApp.post('/login',upload.none(),async(req,res)=>{
     res.cookie("token",signedToken,
         {
             httpOnly:true,
-            secure:true,
-            sameSite:"none"
-        })
+            secure:false,
+            sameSite:'lax'
+        });
+
+        // remove password from user doc
+        let userObj= result.toObject();
+        delete userObj.password;
+
         //response for successful login
-        res.status(201).json({message:"Login Successful..."});
+        res.status(200).json({message:"Login Successful..."});
 })
 
 
@@ -76,8 +79,8 @@ userApp.post('/login',upload.none(),async(req,res)=>{
 userApp.post('/logout',verifyToken(),(req,res)=>{
 res.clearCookie("token",{
     httpOnly:true,
-    secure:true,
-    sameSite:"none"
+    secure:false,
+    sameSite:'lax'
 });
 res.status(200).json({message:"Logout successful..."})
 })
