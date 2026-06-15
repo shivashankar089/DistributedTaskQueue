@@ -1,11 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { NavLink, Outlet } from "react-router";
-import { Link } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 
 function Profile() {
     const [UserObj, setUserObj] = useState({});
     const [Loading, setLoading] = useState(false);
+    const [loggingOut, setLoggingOut] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            setLoggingOut(true);
+            await axios.post(
+                "https://distributedtaskqueue-f21w.onrender.com/user/logout",
+                {},
+                { withCredentials: true }
+            );
+        } catch (err) {
+            console.error("Logout error:", err);
+        } finally {
+            setLoggingOut(false);
+            navigate("/login");
+        }
+    };
 
     useEffect(() => {
         const getUserDetails = async () => {
@@ -57,13 +74,21 @@ function Profile() {
                                             <h1 className="text-3xl font-bold tracking-tight text-slate-800">
                                                 Welcome , {UserObj.firstname || "User"} !
                                             </h1>
-                                            <div className="mt-3">
+                                            <div className="mt-3 flex items-center gap-3">
   <NavLink 
     to="/user-details" 
     className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition duration-200"
   >
     View Profile
   </NavLink>
+  <button
+    id="profile-logout-btn"
+    onClick={handleLogout}
+    disabled={loggingOut}
+    className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    {loggingOut ? "Logging out..." : "🚪 Logout"}
+  </button>
 </div>
                                         </div>
                                     </div>

@@ -1,8 +1,29 @@
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
+import axios from "axios"
+import { useState } from "react"
 
 function Header(){
+    const navigate = useNavigate();
+    const [loggingOut, setLoggingOut] = useState(false);
+
+    const handleLogout = async () => {
+        try {
+            setLoggingOut(true);
+            await axios.post(
+                "https://distributedtaskqueue-f21w.onrender.com/user/logout",
+                {},
+                { withCredentials: true }
+            );
+        } catch (err) {
+            console.error("Logout error:", err);
+        } finally {
+            setLoggingOut(false);
+            navigate("/login");
+        }
+    };
+
     return(
-        <div className="flex justify-end gap-5 px-8 py-4 bg-gray-900 shadow-md">
+        <div className="flex justify-end gap-5 px-8 py-4 bg-gray-900 shadow-md items-center">
             <NavLink
                 to="home"
                 className={({ isActive }) =>
@@ -33,6 +54,16 @@ function Header(){
             >
                 Login
             </NavLink>
+
+            {/* Logout Button */}
+            <button
+                id="logout-btn"
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="text-sm font-medium transition-colors duration-200 text-gray-300 hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                {loggingOut ? "Logging out..." : "Logout"}
+            </button>
         </div>
     )
 }
